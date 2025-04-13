@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Iniciar Sesión')}"></head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<section class="title-home">
+		<h1>Encuentra tu lugar ideal</h1>
+		<p>Explorá miles de alojamientos únicos en todo el mundo.</p>
+
+		<form action="/search" method="get">
+			<input type="text" name="query" placeholder="Buscar ubicación" required />
+			<button type="submit">Buscar</button>
+		</form>
+	</section>
+
+
+	<div th:replace="fragments/property-cards :: cardList(${properties})"></div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
