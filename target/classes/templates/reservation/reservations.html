@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Mis Reservas')}"></head>
+
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="reservation-filter-bar">
+		<a th:href="@{/reservation/reservations(status='active')}" class="filter-btn">
+			<img src="/assets/check-verde.jpeg" alt="Activas" class="filter-option-img">
+			Activas
+		</a>
+		<a th:href="@{/reservation/reservations(status='inactive')}" class="filter-btn">
+			<img src="/assets/check-rojo.jpeg" alt="Inactivas" class="filter-option-img">
+			Inactivas
+		</a>
+		<a th:href="@{/reservation/reservations(status='CONFIRM')}" class="filter-btn">
+			<img src="/assets/check-verde.jpeg" alt="CONFIRM" class="filter-option-img">
+			Confirmadas
+		</a>
+		<a th:href="@{/reservation/reservations(status='PENDING')}" class="filter-btn">
+			<img src="/assets/puntos-suspensivos.jpeg" alt="PENDING" class="filter-option-img">
+			Pendientes
+		</a>
+		<a th:href="@{/reservation/reservations(status='CANCELLED')}" class="filter-btn">
+			<img src="/assets/check-rojo.jpeg" alt="CANCELLED" class="filter-option-img">
+			Canceladas
+		</a>
+		<a th:href="@{/reservation/reservations}" class="filter-btn">
+			<img src="/assets/all.jpeg" alt="Todas" class="filter-option-img">
+			Todas
+		</a>
+	</div>
+
+	<div th:replace="fragments/reservation-cards :: reservationList(${reservations})"></div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>
