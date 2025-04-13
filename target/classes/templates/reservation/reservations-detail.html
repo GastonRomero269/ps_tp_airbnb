@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Iniciar Sesión')}"></head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="container property-review-layout">
+
+		<section class="details">
+
+			<h2 th:text="${reservation.property.title}" class="property-title"></h2>
+
+			<div class="gallery"
+				th:if="${reservation.property.images != null and !reservation.property.images.isEmpty()}">
+
+				<div class="main-image">
+					<img th:src="@{'/assets/' + ${reservation.property.images[0].imageUrl}}" alt="Imagen principal" />
+				</div>
+
+				<div class="image-grid">
+					<div th:each="img, iterStat : ${reservation.property.images}"
+						th:if="${iterStat.index > 0 and iterStat.index < 5}">
+						<img th:src="@{'/assets/' + ${img.imageUrl}}" alt="Imagen secundaria" />
+					</div>
+				</div>
+
+			</div>
+
+			<div class="property-info-wrapper">
+
+				<div class="property-attributes">
+					<div class="attribute-card">
+						<p class="attribute-label">Ubicación:</p>
+						<p class="attribute-value" th:text="${reservation.property.location}">Ubicación</p>
+					</div>
+					<div class="attribute-card">
+						<p class="attribute-label">Descripción:</p>
+						<p class="attribute-value" th:text="${reservation.property.description}">Descripción</p>
+					</div>
+					<div class="attribute-card">
+						<p class="attribute-label">Precio por noche:</p>
+						<p class="attribute-value"
+							th:text="|$${#numbers.formatDecimal(reservation.property.pricePerNight, 1, 2)} USD|">Precio
+						</p>
+					</div>
+					<div class="attribute-card">
+						<p class="attribute-label">Máx. Huéspedes:</p>
+						<p class="attribute-value" th:text="${reservation.property.maxGuests}">Cantidad</p>
+					</div>
+					<div class="attribute-card">
+						<p class="attribute-label">Desde:</p>
+						<p class="attribute-value" th:text="${reservation.startDate}">Cantidad</p>
+					</div>
+					<div class="attribute-card">
+						<p class="attribute-label">Hasta:</p>
+						<p class="attribute-value" th:text="${reservation.endDate}">Cantidad</p>
+					</div>
+
+					<div class="attribute-card">
+						<p class="attribute-value"
+							th:utext="|<strong>Huéspedes:</strong> ${reservation.typeGuests.adults}|">Huéspedes</p>
+						<p class="attribute-value"
+							th:utext="|<strong>Adultos:</strong> (${reservation.typeGuests.adults})|">Adultos</p>
+						<p class="attribute-value"
+							th:utext="|<strong>Niños:</strong> (${reservation.typeGuests.childs})|">Niños</p>
+						<p class="attribute-value"
+							th:utext="|<strong>Bebés:</strong> (${reservation.typeGuests.babys})|">Bebés</p>
+						<p class="attribute-value"
+							th:utext="|<strong>Mascotas:</strong> (${reservation.typeGuests.pets})|">Mascotas</p>
+					</div>
+
+
+					<div class="property-rating">
+						<img src="/assets/estrella.jpeg" alt="Estrella" />
+						<span th:text="${#numbers.formatDecimal(reservation.property.rating, 1, 1)}">4.5</span>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
