@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Mensajes')}"></head>
+
+<body>
+
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="reply-form">
+		<h2>Responder a <span th:text="${original.sender.name}">Nombre</span></h2>
+
+		<form th:action="@{/message/reply}" method="post" th:object="${reply}">
+			<textarea th:field="*{messageText}" placeholder="Escribe tu mensaje..."></textarea>
+
+			<input type="hidden" name="originalId" th:value="${original.id}" />
+			<button type="submit">Enviar</button>
+		</form>
+
+	</div>
+
+</body>
+
+</html>
