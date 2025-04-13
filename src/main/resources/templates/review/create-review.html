@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Crear Reseña')}"></head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<main class="review-container">
+		<div class="review-image">
+			<img th:if="${property.images != null and !property.images.isEmpty()}"
+				th:src="@{'/assets/' + ${property.images[0].imageUrl}}" alt="Imagen del alojamiento" />
+		</div>
+
+		<section class="review-form">
+			<h1>Reseñar: <span th:text="${property.title}">Título del alojamiento</span></h1>
+
+			<form th:action="@{/review/submit}" method="post">
+				<input type="hidden" name="propertyId" th:value="${property.id}" />
+				<input type="hidden" name="guestId" th:value="${guestId}" />
+
+				<label for="createdAt">Fecha:</label>
+				<input type="date" id="createdAt" name="createdAt" required
+					th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly />
+
+				<label for="rating">Calificación (1 a 5):</label>
+				<input type="number" id="rating" name="rating" min="1" max="5" step="0.1" required />
+
+				<label for="comment">Comentario:</label>
+				<textarea id="comment" name="comment" rows="5" placeholder="Escribe tu experiencia..."
+					required></textarea>
+
+				<button type="submit">Enviar reseña</button>
+			</form>
+		</section>
+	</main>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
