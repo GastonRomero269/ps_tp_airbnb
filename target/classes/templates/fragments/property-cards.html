@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<section class="properties" th:fragment="cardList(properties)">
+		<div class="card-grid">
+			<div class="card" th:each="property : ${properties}">
+				<img th:if="${property.images != null and !property.images.isEmpty()}"
+				     th:src="@{'/assets/' + ${property.images[0].imageUrl}}" 
+				     alt="Imagen del alojamiento" />
+				<h3 th:text="${property.title}">Título</h3>
+				<p th:text="|$${#numbers.formatDecimal(property.pricePerNight, 1, 2)} USD por noche|">Precio</p>
+				<p>
+				    <img src="/assets/estrella.jpeg" alt="Estrella" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" />
+				    <span th:text="${#numbers.formatDecimal(property.rating, 1, 1)}">4.5</span>
+				</p>
+				<div class="see-more">
+					<a th:href="@{/property/{id}(id=${property.id})}">Ver más</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
