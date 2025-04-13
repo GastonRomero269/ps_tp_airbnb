@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="~{fragments/head :: commonHead('Mis Reservas')}"></head>
+
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="reservation-form-container">
+		<div class="reservation-flex">
+			<div class="reservation-image">
+				<img th:src="@{'/assets/' + ${property.images[0].imageUrl}}" alt="Imagen principal" />
+			</div>
+
+			<div class="reservation-form">
+				<h2>Reserva tu estancia</h2>
+
+				<form action="/reservation/confirm" method="POST">
+					<input type="hidden" id="max-guests-limit" th:value="${property.maxGuests}" />
+					<input type="hidden" name="propertyId" th:value="${property.id}" />
+
+
+					<div class="info-row">
+						<label for="startDate">Fecha inicio:</label>
+						<input type="text" id="startDate" name="startDate" required>
+					</div>
+
+					<div class="info-row">
+						<label for="endDate">Fecha fin:</label>
+						<input type="text" id="endDate" name="endDate" required>
+					</div>
+
+					<div class="guest-slider-row">
+						<label for="adults">Adultos:</label>
+						<div class="guest-controls">
+							<button type="button" onclick="changeGuest('adults', -1)">-</button>
+							<span id="guest-count-adults">0</span>
+							<button type="button" onclick="changeGuest('adults', 1)">+</button>
+						</div>
+					</div>
+
+					<div class="guest-slider-row">
+						<label for="childs">Niños:</label>
+						<div class="guest-controls">
+							<button type="button" onclick="changeGuest('childs', -1)">-</button>
+							<span id="guest-count-childs">0</span>
+							<button type="button" onclick="changeGuest('childs', 1)">+</button>
+						</div>
+					</div>
+
+					<div class="guest-slider-row">
+						<label for="babys">Bebés:</label>
+						<div class="guest-controls">
+							<button type="button" onclick="changeGuest('babys', -1)">-</button>
+							<span id="guest-count-babys">0</span>
+							<button type="button" onclick="changeGuest('babys', 1)">+</button>
+						</div>
+					</div>
+
+					<div class="guest-slider-row">
+						<label for="pets">Mascotas:</label>
+						<div class="guest-controls">
+							<button type="button" onclick="changeGuest('pets', -1)">-</button>
+							<span id="guest-count-pets">0</span>
+							<button type="button" onclick="changeGuest('pets', 1)">+</button>
+						</div>
+					</div>
+
+					<div class="info-row">
+						<label for="pricePerNight">Precio por noche:</label>
+						<span id="pricePerNight" th:text="'$' + ${property.pricePerNight}"></span>
+					</div>
+
+					<div class="info-row">
+						<label for="totalPrice">Precio total:</label>
+						<span id="totalPrice">0</span>
+					</div>
+
+					<button type="submit">Confirmar Reserva</button>
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		const bookedDates = /*[[${bookedDates}]]*/[];
+	</script>
+
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
