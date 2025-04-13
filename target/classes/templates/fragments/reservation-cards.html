@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<section class="reservations" th:fragment="reservationList(reservations)">
+		<div class="card-grid">
+			<div class="card" th:each="reservation : ${reservations}">
+				<img th:if="${reservation.property.images != null and !reservation.property.images.isEmpty()}"
+				     th:src="@{'/assets/' + ${reservation.property.images[0].imageUrl}}" 
+				     alt="Imagen del alojamiento" />
+				<h3 th:text="${reservation.property.title}">Nombre del alojamiento</h3>
+				<p th:text="'Desde: ' + ${reservation.startDate} + ' hasta: ' + ${reservation.endDate}"></p>
+				<p th:text="|Total: $${#numbers.formatDecimal(reservation.totalPrice, 1, 2)} USD|">Precio total</p>
+				<p>
+				    <img src="/assets/estrella.jpeg" alt="Estrella" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" />
+				    <span th:text="${#numbers.formatDecimal(reservation.property.rating, 1, 1)}">4.5</span>
+				</p>
+				<div class="see-more">
+					<a th:href="@{/reservation/{id}(id=${reservation.id})}">Ver más</a>
+				</div>
+				
+				<div class="see-more pending" th:if="${reservation.status.name() == 'PENDING'}">
+				    <a th:href="@{/reservation/update{id}(id=${reservation.id})}"
+				       th:text="'¿Confirm?: ' + ${reservation.status}"></a>
+				</div>
+
+				<div class="see-more confirmed" th:if="${reservation.status.name() == 'CONFIRMED'}">
+				    <span th:text="${reservation.status}"></span>
+				</div>
+
+				<div class="see-more cancelled" th:if="${reservation.status.name() == 'CANCELLED'}">
+				    <span th:text="${reservation.status}"></span>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+</body>
+</html>
