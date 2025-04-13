@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Mensajes')}"></head>
+
+<body>
+
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="reply-form">
+		<h2>Preguntarle a <span th:text="${host.name}">Nombre</span></h2>
+
+		<form th:action="@{/message/send-start-conversation}" method="post">
+			<textarea name="messageText" placeholder="Escribe tu mensaje..." required></textarea>
+
+			<input type="hidden" name="senderId" th:value="${reply.senderId}" />
+			<input type="hidden" name="receiverId" th:value="${reply.receiverId}" />
+			<input type="hidden" name="propertyId" th:value="${reply.propertyId}" />
+
+			<button type="submit">Enviar</button>
+		</form>
+
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>
