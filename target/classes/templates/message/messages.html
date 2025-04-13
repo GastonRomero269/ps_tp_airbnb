@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Mensajes')}"></head>
+
+<body>
+
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="message-container">
+		<h2 class="message-h2">Bandeja de Entrada</h2>
+
+		<form method="get" th:action="@{/message/messages}" class="search-bar">
+			<input type="text" name="search" placeholder="Buscar por nombre del que inicio la conversacion..."
+				th:value="${search}" />
+			<button type="submit">Buscar</button>
+		</form>
+
+
+
+		<div class="thread-card" th:each="thread : ${messageThreads}"
+			th:attr="data-host=${thread[0].receiver.name.toLowerCase()}">
+
+			<div class="thread-header">
+				<strong th:text="'Host: ' + ${thread[0].receiver.name}"></strong><br />
+				<strong th:text="'Propiedad: ' + ${thread[0].property.title}"></strong>
+			</div>
+
+			<div class="message-list">
+				<div th:each="message, iterStat : ${thread}" class="message-item"
+					th:classappend="${iterStat.index >= 1} ? ' reply-message'">
+					<div class="message-meta">
+						<strong th:text="${message.sender.name}"></strong>
+						<span class="timestamp" th:text="${message.timestamp}"></span>
+					</div>
+					<p class="message-text" th:text="${message.messageText}"></p>
+				</div>
+			</div>
+
+			<div class="thread-actions">
+				<a th:if="${thread[thread.size() - 1].sender.id != currentUser.id}"
+					th:href="@{/message/reply/{id}(id=${thread[thread.size() - 1].id})}" class="btn-reply">Responder</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>
