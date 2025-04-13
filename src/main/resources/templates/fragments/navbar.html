@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="navbar">
+        <nav class="navbar">
+            <div class="logo"><a href="/">Airbnb</a></div>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/property/properties">Alojamientos</a></li>
+				<li th:if="${currentUser != null}"><a href="/message/messages">Contactos</a></li>
+				<li th:if="${currentUser != null and currentUser.role.name() == 'HOST'}"><a href="/property/properties-user">Tus Alojamientos</a></li>
+				<li th:if="${currentUser != null}"><a href="/reservation/reservations">Tus Reservas</a></li>
+				<li th:if="${currentUser != null}"><a href="/logout">Logout</a></li>
+			    <li th:if="${currentUser == null}"><a href="/login">Iniciar Sesión</a></li>
+				<li th:if="${currentUser == null}"><a href="/register">Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>
