@@ -1,0 +1,33 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1rem; 
+    justify-items: center;
+    padding: 10px;
+}
+
+.card {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    width: 400px; 
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+	background: none;
+	background-color: transparent;
+}
+
+.card h3 {
+    margin-top: 0.5rem;
+}
+
+.card p {
+    margin-bottom: 1rem;
+}
