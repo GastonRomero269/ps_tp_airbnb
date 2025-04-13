@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: commonHead('Nuevo Alojamiento')}"></head>
+
+<body>
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="auth-section">
+		<h2>Crear Nuevo Alojamiento</h2>
+
+		<form th:action="@{/property/save}" th:object="${property}" method="post" enctype="multipart/form-data">
+			<div class="form-group-horizontal">
+				<label for="title" class="form-label">Título</label>
+				<input type="text" class="form-control" id="title" th:field="*{title}" required>
+			</div>
+
+			<div class="form-group-horizontal">
+				<label for="description" class="form-label">Descripción</label>
+				<textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+			</div>
+
+			<div class="form-group-horizontal">
+				<label for="location" class="form-label">Ubicación</label>
+				<input type="text" class="form-control" id="location" th:field="*{location}" required>
+			</div>
+
+			<div class="form-group-horizontal">
+				<label for="maxGuests" class="form-label">Cantidad maxima de huespedes</label>
+				<input type="text" class="form-control" id="maxGuests" th:field="*{maxGuests}" required>
+			</div>
+
+			<div class="form-group-horizontal">
+				<label for="pricePerNight" class="form-label">Precio por noche</label>
+				<input type="text" class="form-control" id="pricePerNight" th:field="*{pricePerNight}" required>
+			</div>
+
+			<input type="hidden" th:field="*{rating}" value="0.0" />
+
+			<div class="form-group-horizontal">
+				<label for="images" class="form-label">Imágenes del Alojamiento</label>
+				<input type="file" class="form-control" id="propertyImages" name="propertyImages" multiple>
+			</div>
+
+			<button type="submit" class="btn btn-success btn-lg">Guardar Alojamiento</button>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
