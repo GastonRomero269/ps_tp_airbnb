@@ -30,7 +30,7 @@ CREATE TABLE `user` (
   `password_hash` varchar(255) DEFAULT NULL,
   `role` enum('GUEST','HOST') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'2025-04-09','carlos@host.com','Carlos','1234','HOST'),(2,'2025-04-09','lucia@guest.com','Lucía','abcd','GUEST'),(3,'2025-04-09','julian@host.com','Julián','asdf','HOST'),(4,'2025-04-09','maria@guest.com','María ','zxcv','GUEST'),(5,'2025-04-09','sofia@guest.com','Sofía ','qwer','GUEST');
+INSERT INTO `user` VALUES (1,'2025-04-09','carlos@host.com','Carlos','$2a$10$0HIMv/RNXOK27f3Wr0/IG.BifbYrGZN5WJCLCLI31uiP2HRs1n/me','HOST'),(2,'2025-04-09','lucia@guest.com','Lucía','$2a$10$a.lZr8rYmQX/wavuR/qOH.ELO4DS2YLzI.J3/T7ZbISAd9Kr4aqjK','GUEST'),(3,'2025-04-09','julian@host.com','Julián','$2a$10$S0ecePJ9OJWDH1eJDa9ime3VwFzinLkEXGGRMzamOvoX2UlHtx0sa','HOST'),(4,'2025-04-09','maria@guest.com','María','$2a$10$z5c.O78esld7rvFZ7jYkN.buOuBpbZ/umwCnrlm5de2Lw.ga3DPBa','GUEST'),(5,'2025-04-09','sofia@guest.com','Sofía','$2a$10$VEn1ON5rS4nlJqugIvJN.uciY9LqyxrtmQAJavMFj2noNhswJ0hym','GUEST'),(10,'2025-04-13','pedro@gmail.com','Pedro','$2a$10$q2jPE1Cm/FpEAT9e6sXHh.CwRVMhv/cOkUXSaRyyyQ.7zHL14kEn.','GUEST');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 16:01:41
+-- Dump completed on 2025-04-13 22:00:07
