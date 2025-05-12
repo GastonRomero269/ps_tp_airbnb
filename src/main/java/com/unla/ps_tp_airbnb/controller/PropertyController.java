@@ -48,13 +48,17 @@ public class PropertyController {
 	private PropertyImageService propertyImageService;
 
 	@GetMapping("/{id}")
-	public String showPropertyDetail(@PathVariable Long id, Model model) {
+	public String showPropertyDetail(@PathVariable Long id, HttpSession session, Model model) {
 		Optional<Property> property = propertyService.findById(id);
+	    Long userId = (Long) session.getAttribute("userId");
 
 		if (property.isPresent()) {
 			model.addAttribute("property", property.get());
 			List<Review> reviews = reviewService.findByPropertyId(id);
 			model.addAttribute("reviews", reviews);
+		    List<Property> favorites = userService.getFavorites(userId);
+		    boolean isFavorite = favorites.stream().anyMatch(fav -> fav.getId().equals(property.get().getId()));
+		    model.addAttribute("isFavorite", isFavorite);
 		}
 
 		return "property/property-detail";
@@ -161,4 +165,10 @@ public class PropertyController {
 		return "index";
 	}
 
+    @GetMapping("/favorites/{propertyId}")
+    public String toggleFavorite(@PathVariable("propertyId") Long propertyId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        userService.addFavorite(userId, propertyId);
+        return "redirect:/property/properties";
+    }
 }

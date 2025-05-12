@@ -63,6 +63,18 @@
 			<a th:if="${property.host != null and property.host.id != null and currentUser != null and currentUser.id != null and property.host.id != currentUser.id}"
 				th:href="@{'/message/start-conversation/' + ${property.id}}" class="back-button">Contactar Anfitrión</a>
 
+			<div class="see-more">
+				<a th:if="${!isFavorite}" th:href="@{/property/favorites/{id}(id=${property.id})}" class="favorite-icon"
+					th:classappend="${!isFavorite} ? ' active' : ''" title="Marcar como favorito"> Marcar como favorito
+
+					<i class="far fa-heart"></i>
+				</a>
+
+				<span th:if="${isFavorite}" class="favorite-icon inactive" title="Ya es favorito"> Ya es favorito
+
+					<i class="fas fa-heart"></i>
+				</span>
+			</div>
 		</section>
 
 		<section class="reviews">

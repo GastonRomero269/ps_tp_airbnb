@@ -130,14 +130,12 @@ public class Property {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Property [id=" + id + ", title=" + title + ", description=" + description + ", location=" + location
 				+ ", pricePerNight=" + pricePerNight + ", maxGuests=" + maxGuests + ", createdAt=" + createdAt
 				+ ", rating=" + rating + ", host=" + host + ", images=" + images + "]";
 	}
-
-	
 
 }
