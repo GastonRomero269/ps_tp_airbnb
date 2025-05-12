@@ -61,17 +61,32 @@ public class PropertyController {
 	}
 
 	@GetMapping("/properties")
-	public String listProperties(@RequestParam(required = false) String filter, Model model) {
-		List<Property> properties = null;
+	public String listProperties(
+	    @RequestParam(required = false) String filter,
+	    @RequestParam(required = false) Integer maxGuests,
+	    @RequestParam(required = false) Double priceMin,
+	    @RequestParam(required = false) Double priceMax,
+	    Model model) {
 
-		if (filter != null && !filter.isEmpty()) {
-			properties = propertyService.findByTitleContainingIgnoreCase(filter);
-		} else {
-			properties = propertyService.findAll();
-		}
+	    List<Property> properties;
 
-		model.addAttribute("properties", properties);
-		return "property/properties";
+	    boolean hasTypeFilter   = filter != null && !filter.isBlank();
+	    boolean hasGuestsFilter = maxGuests != null;
+	    boolean hasPriceFilter  = priceMin != null || priceMax != null;
+
+	    if (hasTypeFilter || hasGuestsFilter || hasPriceFilter) {
+	        properties = propertyService.findByFilters(
+	            filter,
+	            maxGuests,
+	            priceMin,
+	            priceMax
+	        );
+	    } else {
+	        properties = propertyService.findAll();
+	    }
+
+	    model.addAttribute("properties", properties);
+	    return "property/properties";
 	}
 
 	@GetMapping("/properties-user")

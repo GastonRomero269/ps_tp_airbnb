@@ -51,5 +51,21 @@ public class PropertyServiceImpl implements PropertyService {
 	public List<Property> findByHostId(Long id) {
 		return propertyRepository.findByHostId(id);
 	}
+	
+	@Override
+	public List<Property> findByFilters(String type, Integer maxGuests, Double priceMin, Double priceMax) {
+	    if (priceMin == null)
+	    {
+	    	priceMin = 0.0;
+	    }
+	    
+	    if (priceMax == null) 
+	    {
+	    	priceMax = Double.MAX_VALUE;
+	    }
+	    
+	    Integer integerMaxGuests = maxGuests != null ? maxGuests : Integer.MAX_VALUE;
+	    return propertyRepository.findByTitleContainingIgnoreCaseAndMaxGuestsLessThanEqualAndPricePerNightBetween(type, integerMaxGuests, priceMin, priceMax);
+	}
 }
 
