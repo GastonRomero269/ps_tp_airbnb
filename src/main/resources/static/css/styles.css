@@ -176,6 +176,7 @@
 
 .see-more.pending {
     background-color: #ffc107; 
+	pointer-events: none; 
 }
 
 .see-more.confirmed {

@@ -18,9 +18,13 @@
 					<a th:href="@{/reservation/{id}(id=${reservation.id})}">Ver más</a>
 				</div>
 				
-				<div class="see-more pending" th:if="${reservation.status.name() == 'PENDING'}">
-				    <a th:href="@{/reservation/update{id}(id=${reservation.id})}"
+				<div class="see-more pending" th:if="${reservation.status.name() == 'PENDING' and isHost}">
+				    <a style="pointer-events: all;" th:href="@{/reservation/update{id}(id=${reservation.id})}"
 				       th:text="'¿Confirm?: ' + ${reservation.status}"></a>
+				</div>
+				
+				<div class="see-more pending" th:if="${reservation.status.name() == 'PENDING' and !isHost}">
+				   <span th:text="${reservation.status}"></span>
 				</div>
 
 				<div class="see-more confirmed" th:if="${reservation.status.name() == 'CONFIRMED'}">

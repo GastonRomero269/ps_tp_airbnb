@@ -26,6 +26,8 @@ public class GlobalControllerAdvice {
         	
             if(user.getRole() == User.Role.HOST) {
             	model.addAttribute("isHost", true);
+            } else {
+            	model.addAttribute("isHost", false);
             }
         }
     }

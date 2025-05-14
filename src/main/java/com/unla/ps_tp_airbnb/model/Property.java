@@ -21,7 +21,7 @@ public class Property {
 	private String description;
 	private String location;
 	private Double pricePerNight;
-	private Integer maxGuests;
+	private int maxGuests;
 	private LocalDate createdAt;
 	private double rating;
 
@@ -36,7 +36,7 @@ public class Property {
 		
 	}
 
-	public Property(Long id, String title, String description, String location, Double pricePerNight, Integer maxGuests,
+	public Property(Long id, String title, String description, String location, Double pricePerNight, int maxGuests,
 			LocalDate createdAt, User host, List<PropertyImage> images, double rating) {
 		super();
 		this.id = id;
@@ -91,11 +91,11 @@ public class Property {
 		this.pricePerNight = pricePerNight;
 	}
 
-	public Integer getMaxGuests() {
+	public int getMaxGuests() {
 		return maxGuests;
 	}
 
-	public void setMaxGuests(Integer maxGuests) {
+	public void setMaxGuests(int maxGuests) {
 		this.maxGuests = maxGuests;
 	}
 

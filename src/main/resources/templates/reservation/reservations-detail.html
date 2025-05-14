@@ -79,6 +79,20 @@
 				</div>
 			</div>
 
+			<div class="see-more confirmed" th:if="${reservation.status.name() == 'CONFIRMED'}">
+				<a style="pointer-events: all;" th:href="@{/reservation/cancell{id}(id=${reservation.id})}"
+					th:text="'¿Cancelar?: ' + ${reservation.status}"></a>
+			</div>
+
+			<div style="text-align: center; margin-top: 1.5rem;">
+				<a th:href="@{/reservation/modify-reservation(
+			                  propertyId=${reservation.property.id},
+			                  reservationId=${reservation.id})}" class="add-review-btn">
+					Modificar Fechas
+				</a>
+			</div>
+
+
 		</section>
 
 	</div>

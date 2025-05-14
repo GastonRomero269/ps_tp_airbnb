@@ -130,26 +130,28 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function changeGuest(id, delta) {
-	const maxGuests = parseInt(document.getElementById('max-guests-limit').value);
-	const span = document.getElementById('guest-count-' + id);
-	let current = parseInt(span.innerText) || 0;
+	const maxGuests = parseInt(
+		document.getElementById('max-guests-limit').value, 10
+	);
+	const display = document.getElementById('guest-count-' + id);
+	let current = parseInt(display.value, 10) || 0;
+	const otherGuests = ['adults', 'childs', 'babys', 'pets']
+		.filter(key => key !== id)
+		.reduce((sum, key) => {
+			return sum + (parseInt(
+				document.getElementById('guest-count-' + key).value, 10
+			) || 0);
+		}, 0);
 
-	const totalGuests =
-		parseInt(document.getElementById('guest-count-adults').innerText || 0) +
-		parseInt(document.getElementById('guest-count-childs').innerText || 0) +
-		parseInt(document.getElementById('guest-count-babys').innerText || 0) +
-		parseInt(document.getElementById('guest-count-pets').innerText || 0);
-
-	if (delta === -1) {
-		if (current > 0) {
-			current += delta;
-			span.innerText = current;
-		}
-		return;
+	if (delta === -1 && current > 0) {
+		current--;
+	}
+	else if (delta === 1 && (otherGuests + current) < maxGuests) {
+		current++;
 	}
 
-	if (delta === 1 && totalGuests < maxGuests) {
-		current += delta;
-		span.innerText = current;
-	}
+	display.value = current;
+	const hidden = document.getElementById(id + '-input');
+	if (hidden) hidden.value = current;
 }
+

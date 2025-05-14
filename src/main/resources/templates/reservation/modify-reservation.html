@@ -16,8 +16,9 @@
 			<div class="reservation-form">
 				<h2>Reserva tu estancia</h2>
 
-				<form action="/reservation/confirm" method="POST">
-					<input type="hidden" name="propertyId" th:value="${property.id}" />
+				<form action="/reservation/confirm-modify-reservation" method="POST">
+					<input type="hidden" name="propertyId" th:value="${reservation.property.id}" />
+					<input type="hidden" name="reservationId" th:value="${reservation.id}" />
 					<input type="hidden" id="max-guests-limit" name="max-guests-limit" th:value="${property.maxGuests}" />
 					<input type="hidden" id="adults-input" name="adults" value="0" />
 					<input type="hidden" id="childs-input" name="childs" value="0" />
@@ -81,7 +82,7 @@
 						<span id="totalPrice">0</span>
 					</div>
 
-					<button type="submit">Confirmar Reserva</button>
+					<button type="submit">Modificar Reserva</button>
 				</form>
 			</div>
 
@@ -100,7 +101,6 @@
 			}
 		});
 	</script>
-
 
 	<div th:replace="fragments/footer :: footer"></div>
 </body>

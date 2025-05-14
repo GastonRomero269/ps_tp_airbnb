@@ -17,8 +17,12 @@
 				<h2>Reserva tu estancia</h2>
 
 				<form action="/reservation/confirm" method="POST">
-					<input type="hidden" id="max-guests-limit" th:value="${property.maxGuests}" />
 					<input type="hidden" name="propertyId" th:value="${property.id}" />
+					<input type="hidden" id="max-guests-limit" name="max-guests-limit" th:value="${property.maxGuests}" />
+					<input type="hidden" id="adults-input" name="adults" value="0" />
+					<input type="hidden" id="childs-input" name="childs" value="0" />
+					<input type="hidden" id="babys-input" name="babys" value="0" />
+					<input type="hidden" id="pets-input"  name="pets"  value="0" />
 
 
 					<div class="info-row">
@@ -32,39 +36,39 @@
 					</div>
 
 					<div class="guest-slider-row">
-						<label for="adults">Adultos:</label>
-						<div class="guest-controls">
-							<button type="button" onclick="changeGuest('adults', -1)">-</button>
-							<span id="guest-count-adults">0</span>
-							<button type="button" onclick="changeGuest('adults', 1)">+</button>
-						</div>
+					  <label for="guest-count-adults">Adultos:</label>
+					  <div class="guest-controls">
+					    <button type="button" onclick="changeGuest('adults', -1)">-</button>
+					    <input type="text" id="guest-count-adults" value="0" readonly />
+					    <button type="button" onclick="changeGuest('adults', 1)">+</button>
+					  </div>
 					</div>
 
 					<div class="guest-slider-row">
-						<label for="childs">Niños:</label>
-						<div class="guest-controls">
-							<button type="button" onclick="changeGuest('childs', -1)">-</button>
-							<span id="guest-count-childs">0</span>
-							<button type="button" onclick="changeGuest('childs', 1)">+</button>
-						</div>
+					  <label for="guest-count-childs">Niños:</label>
+					  <div class="guest-controls">
+					    <button type="button" onclick="changeGuest('childs', -1)">-</button>
+					    <input type="text" id="guest-count-childs" value="0" readonly />
+					    <button type="button" onclick="changeGuest('childs', 1)">+</button>
+					  </div>
 					</div>
 
 					<div class="guest-slider-row">
-						<label for="babys">Bebés:</label>
-						<div class="guest-controls">
-							<button type="button" onclick="changeGuest('babys', -1)">-</button>
-							<span id="guest-count-babys">0</span>
-							<button type="button" onclick="changeGuest('babys', 1)">+</button>
-						</div>
+					  <label for="guest-count-babys">Bebés:</label>
+					  <div class="guest-controls">
+					    <button type="button" onclick="changeGuest('babys', -1)">-</button>
+					    <input type="text" id="guest-count-babys" value="0" readonly />
+					    <button type="button" onclick="changeGuest('babys', 1)">+</button>
+					  </div>
 					</div>
 
 					<div class="guest-slider-row">
-						<label for="pets">Mascotas:</label>
-						<div class="guest-controls">
-							<button type="button" onclick="changeGuest('pets', -1)">-</button>
-							<span id="guest-count-pets">0</span>
-							<button type="button" onclick="changeGuest('pets', 1)">+</button>
-						</div>
+					  <label for="guest-count-pets">Mascotas:</label>
+					  <div class="guest-controls">
+					    <button type="button" onclick="changeGuest('pets', -1)">-</button>
+					    <input type="text" id="guest-count-pets" value="0" readonly />
+					    <button type="button" onclick="changeGuest('pets', 1)">+</button>
+					  </div>
 					</div>
 
 					<div class="info-row">
@@ -84,8 +88,17 @@
 		</div>
 	</div>
 
-	<script>
+	<script th:inline="javascript">
 		const bookedDates = /*[[${bookedDates}]]*/[];
+	</script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const params = new URLSearchParams(window.location.search);
+			if (params.get('error') === 'noAdults') {
+				alert('No seleccionaste ningún adulto');
+			}
+		});
 	</script>
 
 

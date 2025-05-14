@@ -113,9 +113,9 @@ public class ReservationController {
 			return "redirect:/login";
 		}
 
-		Property property = (propertyService.findById(propertyID))
-				.orElseThrow(() -> new RuntimeException("Propiedad no encontrada"));
+		Property property = (propertyService.findById(propertyID)).orElseThrow(() -> new RuntimeException("Propiedad no encontrada"));
 		model.addAttribute("property", property);
+		model.addAttribute("maxGuests", property.getMaxGuests());
 		List<Reservation> reservations = reservationService.findByHostId(property.getHost().getId());
 
 		List<LocalDate> bookedDates = new ArrayList<>();
@@ -129,7 +129,8 @@ public class ReservationController {
 			}
 		}
 
-		model.addAttribute("bookedDates", bookedDates);
+		List<String> bookedDatesStr = bookedDates.stream().map(LocalDate::toString).collect(Collectors.toList());
+		model.addAttribute("bookedDates", bookedDatesStr);
 
 		return "reservation/create-reservation";
 	}
@@ -138,11 +139,115 @@ public class ReservationController {
 	public String confirmReservation(@RequestParam("propertyId") Long propertyId,
 			@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
 			@RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+		    @RequestParam(name="max-guests-limit", required=false, defaultValue="0") int maxGuests,
+		    @RequestParam(name="adults", required=false, defaultValue="0") int cantityAdults,
+		    @RequestParam(name="childs", required=false, defaultValue="0") int cantityChilds,
+		    @RequestParam(name="babys",  required=false, defaultValue="0") int cantityBabys,
+		    @RequestParam(name="pets",   required=false, defaultValue="0") int cantityPets,
+			HttpSession session, Model model) {
+
+		Optional<User> guestOpt = userService.findById((Long) session.getAttribute("userId"));
+		Optional<Property> propertyOpt = propertyService.findById(propertyId);
+		
+		if (cantityAdults == 0) {
+			return "redirect:/reservation/create-reservation?propertyId=" + propertyId + "&error=noAdults";
+		}
+
+		if (guestOpt.isPresent() && propertyOpt.isPresent()) {
+			Property property = propertyOpt.get();
+
+			List<Reservation> existingReservations = reservationService.findByHostId(property.getHost().getId());
+
+			boolean isAvailable = existingReservations.stream().noneMatch(reservation -> {
+				return reservation.getProperty().getId().equals(propertyId)
+						&& !(endDate.isBefore(reservation.getStartDate())
+								|| startDate.isAfter(reservation.getEndDate()));
+			});
+
+			if (!isAvailable) {
+				return "redirect:/reservation/create-reservation?propertyId=" + propertyId + "&error=notAvailable";
+			}
+
+			long days = ChronoUnit.DAYS.between(startDate, endDate);
+			double totalPrice = days * property.getPricePerNight();
+
+			Reservation reservation = new Reservation();
+			reservation.setGuest(guestOpt.get());
+			reservation.setProperty(property);
+			reservation.setStartDate(startDate);
+			reservation.setEndDate(endDate);
+			reservation.setCreatedAt(LocalDate.now());
+			reservation.setTotalPrice(totalPrice);
+			reservation.setStatus(Reservation.Status.PENDING);
+			reservation.setCantityGuests(cantityAdults + cantityChilds + cantityBabys + cantityPets);
+
+			TypeGuests typeGuests = new TypeGuests();
+			typeGuests.setAdults(cantityAdults);
+			typeGuests.setChilds(cantityChilds);
+			typeGuests.setBabys(cantityBabys);
+			typeGuests.setPets(cantityPets);
+			typeGuestsService.save(typeGuests);
+
+			reservation.setTypeGuests(typeGuests);
+			reservationService.save(reservation);
+			return "redirect:/reservation/reservations";
+		}
+
+		return "redirect:/";
+	}
+	
+	@GetMapping("/modify-reservation")
+	public String modifyReservation(
+	        HttpSession session,
+	        Model model,
+	        @RequestParam("propertyId") Long propertyID,
+	        @RequestParam("reservationId") Long reservationID) {
+
+	    if (session.getAttribute("userId") == null) {
+	        return "redirect:/login";
+	    }
+
+	    Property property = propertyService.findById(propertyID)
+	        .orElseThrow(() -> new RuntimeException("Propiedad no encontrada"));
+
+	    Reservation reservation = reservationService.findById(reservationID);
+	    if (reservation == null || !reservation.getProperty().getId().equals(propertyID)) {
+	        throw new RuntimeException("Reserva no válida para esta propiedad");
+	    }
+
+	    List<Reservation> reservations = reservationService.findByHostId(property.getHost().getId());
+	    List<LocalDate> bookedDates = new ArrayList<>();
+	    for (Reservation res : reservations) {
+	        if (res.getProperty().getId().equals(propertyID)) {
+	            LocalDate date = res.getStartDate();
+	            while (!date.isAfter(res.getEndDate())) {
+	                bookedDates.add(date);
+	                date = date.plusDays(1);
+	            }
+	        }
+	    }
+
+	    model.addAttribute("property", property);
+	    model.addAttribute("reservation", reservation);
+	    model.addAttribute("bookedDates", bookedDates);
+
+	    return "reservation/modify-reservation";
+	}
+
+	
+	@PostMapping("/confirm-modify-reservation")
+	public String confirmModifyReservation(@RequestParam("reservationId") Long reservationId, @RequestParam("propertyId") Long propertyId,
+			@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+			@RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
 			@RequestParam(name = "max-guests-limit", defaultValue = "0") int cantityGuests,
 			@RequestParam(name = "adults", defaultValue = "0") int cantityAdults,
 			@RequestParam(name = "childs", defaultValue = "0") int cantityChilds,
 			@RequestParam(name = "babys", defaultValue = "0") int cantityBabys,
 			@RequestParam(name = "pets", defaultValue = "0") int cantityPets, HttpSession session) {
+		
+		if (cantityAdults == 0) {
+			return "redirect:/reservation/create-reservation?propertyId=" + propertyId + "&error=noAdults";
+		}
 
 		Optional<User> guestOpt = userService.findById((Long) session.getAttribute("userId"));
 		Optional<Property> propertyOpt = propertyService.findById(propertyId);
@@ -169,7 +274,7 @@ public class ReservationController {
 			long days = ChronoUnit.DAYS.between(startDate, endDate);
 			double totalPrice = days * property.getPricePerNight();
 
-			Reservation reservation = new Reservation();
+			Reservation reservation = reservationService.findById(reservationId);
 			reservation.setGuest(guestOpt.get());
 			reservation.setProperty(property);
 			reservation.setStartDate(startDate);
@@ -194,4 +299,11 @@ public class ReservationController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/cancell{id}")
+	public String cancellReservation(@PathVariable Long id, HttpSession session, Model model) {
+		Reservation reservation = reservationService.findById(id);
+		reservation.setStatus(Reservation.Status.CANCELLED);
+		reservationService.save(reservation);
+		return "redirect:/reservation/reservations";
+	}
 }
