@@ -1,10 +1,13 @@
 package com.unla.ps_tp_airbnb.model;
 
 import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import com.unla.ps_tp_airbnb.serviceInterface.UserService;
+
 import jakarta.annotation.PostConstruct;
 
 @Component

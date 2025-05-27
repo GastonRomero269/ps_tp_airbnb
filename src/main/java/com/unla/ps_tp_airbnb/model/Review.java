@@ -27,10 +27,9 @@ public class Review {
 	private double rating;
 	private String comment;
 	private LocalDate createdAt;
-	
-	public Review()
-	{
-		
+
+	public Review() {
+
 	}
 
 	public Review(Long id, Property property, User guest, Integer rating, String comment, LocalDate createdAt) {

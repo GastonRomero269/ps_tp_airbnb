@@ -50,47 +50,39 @@ public class PropertyController {
 	@GetMapping("/{id}")
 	public String showPropertyDetail(@PathVariable Long id, HttpSession session, Model model) {
 		Optional<Property> property = propertyService.findById(id);
-	    Long userId = (Long) session.getAttribute("userId");
+		Long userId = (Long) session.getAttribute("userId");
 
 		if (property.isPresent()) {
 			model.addAttribute("property", property.get());
 			List<Review> reviews = reviewService.findByPropertyId(id);
 			model.addAttribute("reviews", reviews);
-		    List<Property> favorites = userService.getFavorites(userId);
-		    boolean isFavorite = favorites.stream().anyMatch(fav -> fav.getId().equals(property.get().getId()));
-		    model.addAttribute("isFavorite", isFavorite);
+			List<Property> favorites = userService.getFavorites(userId);
+			boolean isFavorite = favorites.stream().anyMatch(fav -> fav.getId().equals(property.get().getId()));
+			model.addAttribute("isFavorite", isFavorite);
 		}
 
 		return "property/property-detail";
 	}
 
 	@GetMapping("/properties")
-	public String listProperties(
-	    @RequestParam(required = false) String filter,
-	    @RequestParam(required = false) Integer maxGuests,
-	    @RequestParam(required = false) Double priceMin,
-	    @RequestParam(required = false) Double priceMax,
-	    Model model) {
+	public String listProperties(@RequestParam(required = false) String filter,
+			@RequestParam(required = false) Integer maxGuests, @RequestParam(required = false) Double priceMin,
+			@RequestParam(required = false) Double priceMax, Model model) {
 
-	    List<Property> properties;
+		List<Property> properties;
 
-	    boolean hasTypeFilter   = filter != null && !filter.isBlank();
-	    boolean hasGuestsFilter = maxGuests != null;
-	    boolean hasPriceFilter  = priceMin != null || priceMax != null;
+		boolean hasTypeFilter = filter != null && !filter.isBlank();
+		boolean hasGuestsFilter = maxGuests != null;
+		boolean hasPriceFilter = priceMin != null || priceMax != null;
 
-	    if (hasTypeFilter || hasGuestsFilter || hasPriceFilter) {
-	        properties = propertyService.findByFilters(
-	            filter,
-	            maxGuests,
-	            priceMin,
-	            priceMax
-	        );
-	    } else {
-	        properties = propertyService.findAll();
-	    }
+		if (hasTypeFilter || hasGuestsFilter || hasPriceFilter) {
+			properties = propertyService.findByFilters(filter, maxGuests, priceMin, priceMax);
+		} else {
+			properties = propertyService.findAll();
+		}
 
-	    model.addAttribute("properties", properties);
-	    return "property/properties";
+		model.addAttribute("properties", properties);
+		return "property/properties";
 	}
 
 	@GetMapping("/properties-user")
@@ -165,10 +157,10 @@ public class PropertyController {
 		return "index";
 	}
 
-    @GetMapping("/favorites/{propertyId}")
-    public String toggleFavorite(@PathVariable("propertyId") Long propertyId, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        userService.addFavorite(userId, propertyId);
-        return "redirect:/property/properties";
-    }
+	@GetMapping("/favorites/{propertyId}")
+	public String toggleFavorite(@PathVariable("propertyId") Long propertyId, HttpSession session) {
+		Long userId = (Long) session.getAttribute("userId");
+		userService.addFavorite(userId, propertyId);
+		return "redirect:/property/properties";
+	}
 }

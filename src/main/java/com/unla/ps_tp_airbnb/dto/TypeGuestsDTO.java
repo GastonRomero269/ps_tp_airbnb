@@ -6,10 +6,9 @@ public class TypeGuestsDTO {
 	private int childs;
 	private int babys;
 	private int pets;
-	
-	public TypeGuestsDTO()
-	{
-		
+
+	public TypeGuestsDTO() {
+
 	}
 
 	public TypeGuestsDTO(Long id, int adults, int childs, int babys, int pets) {

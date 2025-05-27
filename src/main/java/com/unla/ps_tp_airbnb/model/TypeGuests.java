@@ -10,16 +10,15 @@ import jakarta.persistence.Id;
 public class TypeGuests {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)	
+	@Column(name = "id", nullable = false)
 	private Long id;
 	private int adults;
 	private int childs;
 	private int babys;
 	private int pets;
-	
-	public TypeGuests()
-	{
-		
+
+	public TypeGuests() {
+
 	}
 
 	public TypeGuests(Long id, int adults, int childs, int babys, int pets) {

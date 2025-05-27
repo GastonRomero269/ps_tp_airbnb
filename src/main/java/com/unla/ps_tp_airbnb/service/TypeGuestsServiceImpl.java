@@ -15,7 +15,7 @@ public class TypeGuestsServiceImpl implements TypeGuestsService {
 
 	@Autowired
 	private TypeGuestsRepository typeGuestRepository;
-	
+
 	@Override
 	public TypeGuests save(TypeGuests typeGuest) {
 		return typeGuestRepository.save(typeGuest);
@@ -35,5 +35,5 @@ public class TypeGuestsServiceImpl implements TypeGuestsService {
 	public void delete(Long id) {
 		typeGuestRepository.deleteById(id);
 	}
-	
+
 }

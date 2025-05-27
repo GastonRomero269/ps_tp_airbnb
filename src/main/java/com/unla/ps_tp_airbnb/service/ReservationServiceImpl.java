@@ -12,24 +12,24 @@ import com.unla.ps_tp_airbnb.serviceInterface.ReservationService;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
 
-    public List<Reservation> findAll() {
-        return reservationRepository.findAll();
-    }
+	public List<Reservation> findAll() {
+		return reservationRepository.findAll();
+	}
 
-    public Reservation findById(Long id) {
-        return reservationRepository.findById(id).orElse(null);
-    }
+	public Reservation findById(Long id) {
+		return reservationRepository.findById(id).orElse(null);
+	}
 
-    public Reservation save(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
+	public Reservation save(Reservation reservation) {
+		return reservationRepository.save(reservation);
+	}
 
-    public void delete(Long id) {
-        reservationRepository.deleteById(id);
-    }
+	public void delete(Long id) {
+		reservationRepository.deleteById(id);
+	}
 
 	@Override
 	public List<Reservation> findByGuestId(Long guestId) {
@@ -41,4 +41,3 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationRepository.findByHostId(hostId);
 	}
 }
-

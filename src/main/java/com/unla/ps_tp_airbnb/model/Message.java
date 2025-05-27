@@ -30,7 +30,7 @@ public class Message {
 
 	private String messageText;
 	private LocalDate timestamp;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "next_message_id")
 	private Message nextMessage;

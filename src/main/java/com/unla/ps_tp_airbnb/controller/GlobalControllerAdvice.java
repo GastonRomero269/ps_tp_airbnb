@@ -13,23 +13,22 @@ import jakarta.servlet.http.HttpSession;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @ModelAttribute
-    public void addUserToModel(HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("userId");
-        
-        if (userId != null) {
-        	User user = userService.findById(userId).get();
-        	model.addAttribute("currentUser", user);
-        	
-            if(user.getRole() == User.Role.HOST) {
-            	model.addAttribute("isHost", true);
-            } else {
-            	model.addAttribute("isHost", false);
-            }
-        }
-    }
+	@ModelAttribute
+	public void addUserToModel(HttpSession session, Model model) {
+		Long userId = (Long) session.getAttribute("userId");
+
+		if (userId != null) {
+			User user = userService.findById(userId).get();
+			model.addAttribute("currentUser", user);
+
+			if (user.getRole() == User.Role.HOST) {
+				model.addAttribute("isHost", true);
+			} else {
+				model.addAttribute("isHost", false);
+			}
+		}
+	}
 }
-

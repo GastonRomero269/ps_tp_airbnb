@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final PropertyRepository propertyRepository;
-	
+
 	public UserServiceImpl(UserRepository userRepository, PropertyRepository propertyRepository) {
 		this.userRepository = userRepository;
 		this.propertyRepository = propertyRepository;
@@ -50,20 +50,22 @@ public class UserServiceImpl implements UserService {
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
-    @Override
-    public List<Property> getFavorites(Long userId) {
-        return propertyRepository.findFavoritesByUserId(userId);
-    }
-    
-    @Transactional
-    public void addFavorite(Long userId, Long propertyId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
-        Property prop = propertyRepository.findById(propertyId).orElseThrow(() -> new EntityNotFoundException("Propiedad no encontrada"));
 
-        if (!user.getFavoriteProperties().contains(prop)) {
-            user.addFavorite(prop);  
-            userRepository.save(user);      
-        }
-    }
+	@Override
+	public List<Property> getFavorites(Long userId) {
+		return propertyRepository.findFavoritesByUserId(userId);
+	}
+
+	@Transactional
+	public void addFavorite(Long userId, Long propertyId) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+		Property prop = propertyRepository.findById(propertyId)
+				.orElseThrow(() -> new EntityNotFoundException("Propiedad no encontrada"));
+
+		if (!user.getFavoriteProperties().contains(prop)) {
+			user.addFavorite(prop);
+			userRepository.save(user);
+		}
+	}
 }

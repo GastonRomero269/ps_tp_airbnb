@@ -31,9 +31,9 @@ public class Property {
 
 	@OneToMany(mappedBy = "property", fetch = FetchType.EAGER)
 	private List<PropertyImage> images;
-	
+
 	public Property() {
-		
+
 	}
 
 	public Property(Long id, String title, String description, String location, Double pricePerNight, int maxGuests,
@@ -130,7 +130,7 @@ public class Property {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Property [id=" + id + ", title=" + title + ", description=" + description + ", location=" + location

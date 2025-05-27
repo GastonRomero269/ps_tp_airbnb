@@ -14,15 +14,13 @@ import com.unla.ps_tp_airbnb.serviceInterface.PropertyService;
 public class HomeController {
 
 	@Autowired
-    private PropertyService propertyService;
+	private PropertyService propertyService;
 
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Property> properties = propertyService.findByRatingGreaterThan(4.4);
-        model.addAttribute("properties", properties);
-        return "index";
-    }
-    
+	@GetMapping("/")
+	public String index(Model model) {
+		List<Property> properties = propertyService.findByRatingGreaterThan(4.4);
+		model.addAttribute("properties", properties);
+		return "index";
+	}
+
 }
-
-

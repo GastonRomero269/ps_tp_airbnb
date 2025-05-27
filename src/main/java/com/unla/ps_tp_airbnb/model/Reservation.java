@@ -40,6 +40,8 @@ public class Reservation {
 	private Status status;
 	private LocalDate createdAt;
 
+	private String methodPay;
+
 	public enum Status {
 		PENDING, CONFIRMED, CANCELLED
 	}
@@ -60,6 +62,31 @@ public class Reservation {
 		this.status = status;
 		this.createdAt = createdAt;
 		this.cantityGuests = cantityGuests;
+	}
+
+	public Reservation(Long id, Property property, User guest, TypeGuests typeGuests, int cantityGuests,
+			LocalDate startDate, LocalDate endDate, Double totalPrice, Status status, LocalDate createdAt,
+			String methodPay) {
+		super();
+		this.id = id;
+		this.property = property;
+		this.guest = guest;
+		this.typeGuests = typeGuests;
+		this.cantityGuests = cantityGuests;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.totalPrice = totalPrice;
+		this.status = status;
+		this.createdAt = createdAt;
+		this.methodPay = methodPay;
+	}
+
+	public String getMethodPay() {
+		return methodPay;
+	}
+
+	public void setMethodPay(String methodPay) {
+		this.methodPay = methodPay;
 	}
 
 	public Long getId() {

@@ -43,9 +43,9 @@ public class User implements UserDetails {
 	private Set<Property> favoriteProperties = new HashSet<>();
 
 	public void addFavorite(Property property) {
-	    this.favoriteProperties.add(property);
+		this.favoriteProperties.add(property);
 	}
-	
+
 	public Set<Property> getFavoriteProperties() {
 		return favoriteProperties;
 	}

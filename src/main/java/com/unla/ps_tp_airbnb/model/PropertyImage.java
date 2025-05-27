@@ -21,9 +21,9 @@ public class PropertyImage {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "property_id")
 	private Property property;
-	
+
 	public PropertyImage() {
-		
+
 	}
 
 	public PropertyImage(Long id, String imageUrl, LocalDate uploadedAt, Property property) {

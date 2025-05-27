@@ -10,6 +10,7 @@ import com.unla.ps_tp_airbnb.model.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 	List<Reservation> findByGuestId(Long guestId);
+
 	@Query("SELECT r FROM Reservation r WHERE r.property.host.id = :hostId")
 	List<Reservation> findByHostId(@Param("hostId") Long hostId);
 

@@ -80,6 +80,15 @@
 						<label for="totalPrice">Precio total:</label>
 						<span id="totalPrice">0</span>
 					</div>
+					
+					<div class="info-row">
+					    <label for="methodPay">Medio Pago:</label>
+					    <select id="methodPay" name="methodPay">
+					        <option th:each="method : ${typesMethodPay}" 
+					                th:value="${method}" 
+					                th:text="${method}"></option>
+					    </select>
+					</div>
 
 					<button type="submit">Confirmar Reserva</button>
 				</form>

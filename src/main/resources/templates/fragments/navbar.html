@@ -9,8 +9,7 @@
 				<li><a href="/">Inicio</a></li>
 				<li><a href="/property/properties">Alojamientos</a></li>
 				<li th:if="${currentUser != null}"><a href="/message/messages">Contactos</a></li>
-				<li th:if="${currentUser != null and currentUser.role.name() == 'HOST'}"><a
-						href="/property/properties-user">Tus Alojamientos</a></li>
+				<li th:if="${currentUser != null and currentUser.role.name() == 'HOST'}"><a href="/property/properties-user">Tus Alojamientos</a></li>
 				<li th:if="${currentUser != null}"><a href="/reservation/reservations">Tus Reservas</a></li>
 				<li th:if="${currentUser != null}">
 					<a href="/users/favorites">
